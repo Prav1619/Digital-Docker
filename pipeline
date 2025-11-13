@@ -12,9 +12,18 @@ pipeline {
                 sh 'docker build -t prav1619/cycle_app:v1 2128_tween_agency' 
             }
         }
-        stage("Container") {
+        stage('Push') {
+            steps {
+               script{
+withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+    sh 'docker push prav1619/cycle_app:v1 '
+} 
+               }
+            }
+        }
+        stage("Deploy") {
             steps{
-                sh 'docker run -itd --name myapp -p 2025:80 prav1619/cycle_app:v1'
+                sh 'docker run -itd --name digital_app -p 1925:80 prav1619/cycle_app:v1'
             }
         }
     }
