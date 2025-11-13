@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    
+    stages{
+        stage("Code") {
+            steps{
+                git branch: 'flm', url: 'https://github.com/Prav1619/digital_marketing.git'
+            }
+        }
+        stage("Build") {
+            steps {
+                sh 'docker build -t prav1619/cycle_app:v1 2128_tween_agency' 
+            }
+        }
+        stage("Container") {
+            steps{
+                sh 'docker run -itd --name myapp -p 2025:80 prav1619/cycle_app:v1'
+            }
+        }
+    }
+}
